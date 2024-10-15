@@ -21,7 +21,14 @@ async function scrapePage(url, wait=0) {
       '--no-first-run',
       '--no-zygote',
       '--disable-gpu'
-    ],
+    ],executablePath:
+    process.env.NODE_ENV === "production"
+      ? process.env.PUPPETEER_EXECUTABLE_PATH
+      : puppeteer.executablePath(),
+  defaultViewport: {
+        width:1920,
+        height:1080
+      }
   });
 
   const page = await browser.newPage();
@@ -32,7 +39,7 @@ async function scrapePage(url, wait=0) {
   );
 
   // Set viewport size
-  await page.setViewport({ width: 1200, height: 800 });
+ // await page.setViewport({ width: 1200, height: 800 });
 
   try {
     // Go to the provided URL
